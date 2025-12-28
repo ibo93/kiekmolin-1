@@ -41,7 +41,7 @@
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#1a5f4a">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Kiek mol in">
     <meta name="theme-color" content="#6B46C1" id="themeColorMeta">
     <meta name="mobile-web-app-capable" content="yes">
@@ -525,12 +525,12 @@
         }
         
         html {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: var(--bg-secondary);
         }
 
         body {
             font-family: 'DM Sans', sans-serif;
-            background: transparent;
+            background: var(--bg-secondary);
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
@@ -4039,7 +4039,7 @@
     
     <!-- Main View -->
     <div id="mainView">
-        <header class="guest-header">
+        <header class="guest-header" style="padding-top: calc(50px + env(safe-area-inset-top, 0px));">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
                 <div class="logo" onclick="secretAdminTap()">Kiek mol <span>in</span></div>
                 <!-- Punkte & Sprache -->
