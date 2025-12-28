@@ -3993,6 +3993,11 @@
                     <small style="color: var(--text-secondary); font-size: 11px;">Gib selbst ein was für ein Restaurant es ist</small>
                 </div>
                 
+                <div class="form-group">
+                    <label class="form-label">Kurze Beschreibung</label>
+                    <textarea class="form-input" id="newRestaurantDescription" rows="2" placeholder="z.B. Gemütliches Fischrestaurant direkt am Hafen..."></textarea>
+                </div>
+                
                 <h4 style="margin: 16px 0 12px; color: var(--dark);">Social Media</h4>
                 <div class="form-group">
                     <label class="form-label"><span class="label-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>Instagram Link</label>
@@ -4002,21 +4007,34 @@
                     <label class="form-label"><span class="label-icon"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></span>TikTok Link</label>
                     <input type="url" class="form-input" id="newRestaurantTiktok" placeholder="https://tiktok.com/@restaurantname">
                 </div>
+                <div class="form-group">
+                    <label class="form-label"><span class="label-icon"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span>Facebook Link</label>
+                    <input type="url" class="form-input" id="newRestaurantFacebook" placeholder="https://facebook.com/restaurantname">
+                </div>
                 
                 <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--sand);">
-                <h4 style="margin-bottom: 12px; color: var(--dark);">Google Bewertung</h4>
+                <h4 style="margin-bottom: 12px; color: var(--dark);">Google Bewertung & Preis</h4>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
                     <div class="form-group">
                         <label class="form-label">Sterne (1-5)</label>
                         <input type="number" class="form-input" id="newRestaurantRating" value="4.5" min="1" max="5" step="0.1" placeholder="4.5">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Anzahl Bewertungen</label>
+                        <label class="form-label">Bewertungen</label>
                         <input type="number" class="form-input" id="newRestaurantReviewCount" placeholder="127" min="0">
                     </div>
+                    <div class="form-group">
+                        <label class="form-label">Preisniveau</label>
+                        <select class="form-input" id="newRestaurantPriceLevel">
+                            <option value="€">€</option>
+                            <option value="€€" selected>€€</option>
+                            <option value="€€€">€€€</option>
+                            <option value="€€€€">€€€€</option>
+                        </select>
+                    </div>
                 </div>
-                <p style="font-size: 11px; color: var(--slate); margin-top: -8px; margin-bottom: 12px;">Tipp: Öffne Google Maps → Restaurant suchen → Bewertung & Anzahl ablesen</p>
+                <p style="font-size: 11px; color: var(--slate); margin-top: 4px; margin-bottom: 12px;">Tipp: Öffne Google Maps → Restaurant suchen → Bewertung & Anzahl ablesen</p>
                 
                 <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--sand);">
                 <h4 style="margin-bottom: 12px; color: var(--dark);">✨ Eigenschaften (wie bei Google)</h4>
@@ -12627,23 +12645,58 @@ async function addRestaurant(e) {
     const editId = document.getElementById('addRestaurantForm').dataset.editId;
     const isEdit = !!editId;
     
+    // Basis-Felder
     const name = document.getElementById('newRestaurantName').value;
     const cuisine = document.getElementById('newRestaurantCuisine').value;
+    const description = document.getElementById('newRestaurantDescription')?.value || '';
     const phone = document.getElementById('newRestaurantPhone').value || '';
     const whatsapp = document.getElementById('newRestaurantWhatsapp').value || null;
     const email = document.getElementById('newRestaurantEmail').value || null;
+    const website = document.getElementById('newRestaurantWebsite')?.value || '';
     const city = document.getElementById('newRestaurantCity')?.value || 'Greetsiel';
     const street = document.getElementById('newRestaurantStreet')?.value || '';
     const zip = document.getElementById('newRestaurantZip')?.value || '';
     const googleMaps = document.getElementById('newRestaurantGoogleMaps')?.value || '';
+    
+    // Social Media
     const instagram = document.getElementById('newRestaurantInstagram')?.value || '';
     const tiktok = document.getElementById('newRestaurantTiktok')?.value || '';
+    const facebook = document.getElementById('newRestaurantFacebook')?.value || '';
+    
+    // Bewertung
     const rating = parseFloat(document.getElementById('newRestaurantRating')?.value) || 4.5;
     const reviewCount = parseInt(document.getElementById('newRestaurantReviewCount')?.value) || 0;
+    const priceLevel = document.getElementById('newRestaurantPriceLevel')?.value || '€€';
     
-    // Bild: Erst Upload prüfen, dann URL, dann Default
-    const image = uploadedImageBase64 || document.getElementById('newRestaurantImage').value || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800';
-    const tables = parseInt(document.getElementById('newRestaurantTables').value) || 8;
+    // Features (Checkboxen)
+    const features = [];
+    if (document.getElementById('featureDogFriendly')?.checked) features.push('hundefreundlich');
+    if (document.getElementById('featureKidFriendly')?.checked) features.push('kinderfreundlich');
+    if (document.getElementById('featureVegetarian')?.checked) features.push('vegetarisch');
+    if (document.getElementById('featureVegan')?.checked) features.push('vegan');
+    if (document.getElementById('featureWheelchair')?.checked) features.push('barrierefrei');
+    if (document.getElementById('featureParking')?.checked) features.push('parkplätze');
+    if (document.getElementById('featureCard')?.checked) features.push('kartenzahlung');
+    if (document.getElementById('featureWifi')?.checked) features.push('wlan');
+    if (document.getElementById('featureTerrace')?.checked) features.push('terrasse');
+    if (document.getElementById('featureReservation')?.checked) features.push('reservierung');
+    if (document.getElementById('featureTakeaway')?.checked) features.push('mitnahme');
+    if (document.getElementById('featureDelivery')?.checked) features.push('lieferservice');
+    if (document.getElementById('featureLiveMusic')?.checked) features.push('livemusik');
+    if (document.getElementById('featureOutdoor')?.checked) features.push('aussenbereich');
+    
+    // Bilder: Uploads + URLs
+    const allImages = [...uploadedImages];
+    const imgUrl1 = document.getElementById('newRestaurantImage')?.value;
+    const imgUrl2 = document.getElementById('newRestaurantImage2')?.value;
+    const imgUrl3 = document.getElementById('newRestaurantImage3')?.value;
+    if (imgUrl1) allImages.push(imgUrl1);
+    if (imgUrl2) allImages.push(imgUrl2);
+    if (imgUrl3) allImages.push(imgUrl3);
+    
+    // Hauptbild (erstes Bild oder Default)
+    const image = allImages[0] || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800';
+    const tables = parseInt(document.getElementById('newRestaurantTables')?.value) || 8;
     
     // Koordinaten basierend auf Ort
     const cityCoords = {
@@ -12655,25 +12708,29 @@ async function addRestaurant(e) {
     };
     const coords = cityCoords[city] || { lat: 53.5021, lng: 7.0965 };
     
-    // Vollständige Adresse für Route (wird aus street/zip/city zusammengesetzt)
-    const fullAddress = `${street}, ${zip} ${city}, Deutschland`;
-    
-    // Restaurant Daten
+    // Restaurant Daten für Supabase
     const restaurantData = {
         name: name,
+        description: description || null,
         phone: phone,
         whatsapp: whatsapp,
         email: email,
+        website_url: website || null,
         city: city,
-        street: street,
-        zip: zip,
-        google_maps_url: googleMaps,
-        instagram: instagram,
-        tiktok: tiktok,
+        street: street || null,
+        zip: zip || null,
+        address: street ? `${street}, ${zip} ${city}` : city,
+        google_maps_url: googleMaps || null,
+        instagram_url: instagram || null,
+        tiktok_url: tiktok || null,
+        facebook_url: facebook || null,
         cuisine_type: [cuisine],
         image_url: image,
+        images: allImages.length > 0 ? allImages : null,
         rating: rating,
-        review_count: reviewCount
+        review_count: reviewCount,
+        price_level: priceLevel,
+        features: features.length > 0 ? features : null
     };
     
     // Nur bei Neuanlage Koordinaten und Status setzen
