@@ -522,10 +522,14 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
+        html {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
 
         body {
             font-family: 'DM Sans', sans-serif;
-            background: var(--bg-primary);
+            background: transparent;
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
@@ -895,26 +899,25 @@
             overflow: hidden;
         }
         
-        /* Desktop: App zentriert */
+        /* Desktop: Volle Breite */
         @media (min-width: 768px) {
             .guest-view {
-                max-width: 520px;
-                box-shadow: 0 0 80px rgba(0,0,0,0.2);
+                max-width: 100%;
             }
             
             .bottom-nav {
-                max-width: 520px;
+                max-width: 100%;
             }
         }
         
-        /* Große Bildschirme - breiter */
+        /* Große Bildschirme */
         @media (min-width: 1200px) {
             .guest-view {
-                max-width: 600px;
+                max-width: 100%;
             }
             
             .bottom-nav {
-                max-width: 600px;
+                max-width: 100%;
             }
         }
 
@@ -925,8 +928,7 @@
         /* Header */
         .guest-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 50px 24px 100px;
-            padding-top: max(50px, env(safe-area-inset-top, 50px));
+            padding: 60px 24px 100px;
             position: relative;
             overflow: hidden;
             margin: 0;
