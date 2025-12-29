@@ -8584,6 +8584,7 @@ function toggleFavorite(id) {
 
 function updateFavoritesBadge() {
     const badge = document.getElementById('favBadge');
+    if (!badge) return;
     const count = APP_DATA.favorites.length;
     badge.textContent = count;
     badge.style.display = count > 0 ? 'flex' : 'none';
