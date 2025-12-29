@@ -3998,7 +3998,71 @@
                     <textarea class="form-input" id="newRestaurantDescription" rows="2" placeholder="z.B. Gemütliches Fischrestaurant direkt am Hafen..."></textarea>
                 </div>
                 
-                <h4 style="margin: 16px 0 12px; color: var(--dark);">Social Media</h4>
+                <div class="form-group">
+                    <label class="form-label">Betriebsart</label>
+                    <select class="form-input" id="newRestaurantServiceType" onchange="toggleTablesField()">
+                        <option value="dine_in">🍽️ Restaurant mit Tischen (Reservierung möglich)</option>
+                        <option value="takeaway">🥡 Nur Abholung / Lieferung (keine Reservierung)</option>
+                    </select>
+                    <small style="color: var(--text-secondary); font-size: 11px;">Pizzerien, Döner, Imbisse → "Nur Abholung"</small>
+                </div>
+                
+                <div class="form-group" id="tablesFieldGroup">
+                    <label class="form-label">Anzahl Tische</label>
+                    <input type="number" class="form-input" id="newRestaurantTables" min="1" max="100" value="10" placeholder="z.B. 10">
+                    <small style="color: var(--text-secondary); font-size: 11px;">Wie viele Tische hat das Restaurant insgesamt?</small>
+                </div>
+                
+                <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--sand);">
+                <h4 style="margin-bottom: 12px; color: var(--dark);">🕐 Öffnungszeiten</h4>
+                
+                <div id="openingHoursEditor" style="display: grid; gap: 8px;">
+                    <div style="display: grid; grid-template-columns: 80px 1fr 1fr auto; gap: 8px; align-items: center;">
+                        <span style="font-size: 13px; font-weight: 500;">Montag</span>
+                        <input type="time" class="form-input opening-time" id="monOpen" value="11:00" style="padding: 8px;">
+                        <input type="time" class="form-input opening-time" id="monClose" value="22:00" style="padding: 8px;">
+                        <label style="display: flex; align-items: center; gap: 4px; font-size: 12px;"><input type="checkbox" id="monClosed"> Ruhetag</label>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 80px 1fr 1fr auto; gap: 8px; align-items: center;">
+                        <span style="font-size: 13px; font-weight: 500;">Dienstag</span>
+                        <input type="time" class="form-input opening-time" id="tueOpen" value="11:00" style="padding: 8px;">
+                        <input type="time" class="form-input opening-time" id="tueClose" value="22:00" style="padding: 8px;">
+                        <label style="display: flex; align-items: center; gap: 4px; font-size: 12px;"><input type="checkbox" id="tueClosed"> Ruhetag</label>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 80px 1fr 1fr auto; gap: 8px; align-items: center;">
+                        <span style="font-size: 13px; font-weight: 500;">Mittwoch</span>
+                        <input type="time" class="form-input opening-time" id="wedOpen" value="11:00" style="padding: 8px;">
+                        <input type="time" class="form-input opening-time" id="wedClose" value="22:00" style="padding: 8px;">
+                        <label style="display: flex; align-items: center; gap: 4px; font-size: 12px;"><input type="checkbox" id="wedClosed"> Ruhetag</label>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 80px 1fr 1fr auto; gap: 8px; align-items: center;">
+                        <span style="font-size: 13px; font-weight: 500;">Donnerstag</span>
+                        <input type="time" class="form-input opening-time" id="thuOpen" value="11:00" style="padding: 8px;">
+                        <input type="time" class="form-input opening-time" id="thuClose" value="22:00" style="padding: 8px;">
+                        <label style="display: flex; align-items: center; gap: 4px; font-size: 12px;"><input type="checkbox" id="thuClosed"> Ruhetag</label>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 80px 1fr 1fr auto; gap: 8px; align-items: center;">
+                        <span style="font-size: 13px; font-weight: 500;">Freitag</span>
+                        <input type="time" class="form-input opening-time" id="friOpen" value="11:00" style="padding: 8px;">
+                        <input type="time" class="form-input opening-time" id="friClose" value="23:00" style="padding: 8px;">
+                        <label style="display: flex; align-items: center; gap: 4px; font-size: 12px;"><input type="checkbox" id="friClosed"> Ruhetag</label>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 80px 1fr 1fr auto; gap: 8px; align-items: center;">
+                        <span style="font-size: 13px; font-weight: 500;">Samstag</span>
+                        <input type="time" class="form-input opening-time" id="satOpen" value="11:00" style="padding: 8px;">
+                        <input type="time" class="form-input opening-time" id="satClose" value="23:00" style="padding: 8px;">
+                        <label style="display: flex; align-items: center; gap: 4px; font-size: 12px;"><input type="checkbox" id="satClosed"> Ruhetag</label>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 80px 1fr 1fr auto; gap: 8px; align-items: center;">
+                        <span style="font-size: 13px; font-weight: 500;">Sonntag</span>
+                        <input type="time" class="form-input opening-time" id="sunOpen" value="11:00" style="padding: 8px;">
+                        <input type="time" class="form-input opening-time" id="sunClose" value="22:00" style="padding: 8px;">
+                        <label style="display: flex; align-items: center; gap: 4px; font-size: 12px;"><input type="checkbox" id="sunClosed"> Ruhetag</label>
+                    </div>
+                </div>
+                
+                <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--sand);">
+                <h4 style="margin-bottom: 12px; color: var(--dark);">Social Media</h4>
                 <div class="form-group">
                     <label class="form-label"><span class="label-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></span>Instagram Link</label>
                     <input type="url" class="form-input" id="newRestaurantInstagram" placeholder="https://instagram.com/restaurantname">
@@ -4128,10 +4192,6 @@
                     <input type="url" class="form-input" id="newRestaurantImage2" placeholder="Bild-URL 2 (optional)" style="margin-bottom: 8px;">
                     <input type="url" class="form-input" id="newRestaurantImage3" placeholder="Bild-URL 3 (optional)">
                     <small style="color: var(--text-secondary); font-size: 11px; margin-top: 4px; display: block;">Tipp: Auf Google Maps → Restaurant → Fotos → Bild öffnen → Rechtsklick → Bildadresse kopieren</small>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Anzahl Tische</label>
-                    <input type="number" class="form-input" id="newRestaurantTables" value="8" min="1" max="50">
                 </div>
                 
                 <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--sand);">
@@ -5000,7 +5060,7 @@
                     <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;" id="adminAvatar">A</div>
                     <div>
                         <div style="color: white; font-weight: 600; font-size: 14px;" id="adminName">Admin</div>
-                        <div style="color: rgba(255,255,255,0.6); font-size: 12px;" id="adminEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3e5f5a5357507e5b535f5752105a5b">[email&#160;protected]</a></div>
+                        <div style="color: rgba(255,255,255,0.6); font-size: 12px;" id="adminEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d4bdbab2bb94bfbdb1bfb9bbb8bdbafab0b1">[email&#160;protected]</a></div>
                     </div>
                 </div>
                 <button onclick="adminLogout()" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: none; border-radius: 8px; color: rgba(255,255,255,0.8); font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
@@ -6471,7 +6531,7 @@
     </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ==================== SOFORTIGE THEME-INITIALISIERUNG ====================
 (function() {
     const savedTheme = localStorage.getItem('kmi_theme') || 'auto';
@@ -7994,23 +8054,41 @@ async function initSupabase() {
         
         // Restaurants direkt verarbeiten
         if (restaurants && restaurants.length > 0) {
-            APP_DATA.restaurants = restaurants.map(r => ({
-                id: r.id,
-                name: r.name || 'Unbekannt',
-                cuisine: Array.isArray(r.cuisine_type) ? r.cuisine_type[0] : (r.cuisine_type || 'Restaurant'),
-                rating: r.rating || 4.5,
-                reviewCount: r.review_count || 0,
-                freeTables: 5,
-                waitTime: 0,
-                phone: r.phone || '',
-                whatsapp: r.whatsapp || null,
-                address: r.street ? `${r.street}, ${r.zip || ''} ${r.city || ''}`.trim() : (r.city || 'Ostfriesland'),
-                city: r.city || 'Ostfriesland',
-                lat: parseFloat(r.latitude) || 53.5021,
-                lng: parseFloat(r.longitude) || 7.0965,
-                image: r.image_url || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800',
-                offer: null
-            }));
+            APP_DATA.restaurants = restaurants.map(r => {
+                const features = r.features || [];
+                const isTakeaway = features.includes('takeaway_only');
+                return {
+                    id: r.id,
+                    name: r.name || 'Unbekannt',
+                    description: r.description || '',
+                    cuisine: Array.isArray(r.cuisine_type) ? r.cuisine_type[0] : (r.cuisine_type || 'Restaurant'),
+                    serviceType: isTakeaway ? 'takeaway' : 'dine_in',
+                    rating: r.rating || 4.5,
+                    reviewCount: r.review_count || 0,
+                    freeTables: isTakeaway ? 0 : (parseInt(r.free_tables) || 5),
+                    waitTime: 0,
+                    phone: r.phone || '',
+                    whatsapp: r.whatsapp || null,
+                    email: r.email || '',
+                    website: r.website_url || '',
+                    address: r.street ? `${r.street}, ${r.zip || ''} ${r.city || ''}`.trim() : (r.city || 'Ostfriesland'),
+                    street: r.street || '',
+                    zip: r.zip || '',
+                    city: r.city || 'Ostfriesland',
+                    lat: parseFloat(r.latitude) || 53.5021,
+                    lng: parseFloat(r.longitude) || 7.0965,
+                    image: r.image_url || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800',
+                    images: r.images || [],
+                    instagram: r.instagram_url || '',
+                    tiktok: r.tiktok_url || '',
+                    facebook: r.facebook_url || '',
+                    googleMaps: r.google_maps_url || '',
+                    priceLevel: r.price_level || '€€',
+                    features: features.filter(f => f !== 'takeaway_only'),
+                    opening_hours: r.opening_hours || null,
+                    offer: null
+                };
+            });
             console.log('[OK] Restaurants geladen:', APP_DATA.restaurants.length);
         }
         
@@ -8209,6 +8287,57 @@ const APP_DATA = {
 };
 
 // ==================== UTILITY FUNCTIONS ====================
+
+// Cookie Banner akzeptieren
+function acceptCookies() {
+    const banner = document.getElementById('cookieBanner');
+    if (banner) {
+        banner.style.display = 'none';
+        localStorage.setItem('cookiesAccepted', 'true');
+    }
+}
+
+// Tische-Feld ein/ausblenden je nach Betriebsart
+function toggleTablesField() {
+    const serviceType = document.getElementById('newRestaurantServiceType')?.value;
+    const tablesGroup = document.getElementById('tablesFieldGroup');
+    if (tablesGroup) {
+        tablesGroup.style.display = serviceType === 'takeaway' ? 'none' : 'block';
+    }
+}
+
+// Section anzeigen (für Favoriten etc.)
+function showSection(section) {
+    if (section === 'favorites') {
+        showView('guestView');
+        setTimeout(() => {
+            const favSection = document.querySelector('[data-section="favorites"]');
+            if (favSection) favSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
+}
+
+// Job Detail anzeigen
+function showJobDetail(jobId) {
+    const job = APP_DATA.jobs?.find(j => j.id === jobId);
+    if (!job) return;
+    
+    const modal = document.getElementById('jobDetailModal');
+    if (!modal) {
+        // Fallback: Toast mit Info
+        showToast(`Job: ${job.title} bei ${job.restaurant_name || 'Restaurant'}`, 'info');
+        return;
+    }
+    
+    document.getElementById('jobDetailTitle').textContent = job.title || '';
+    document.getElementById('jobDetailRestaurant').textContent = job.restaurant_name || '';
+    document.getElementById('jobDetailType').textContent = job.job_type || '';
+    document.getElementById('jobDetailSalary').textContent = job.salary || 'Nach Vereinbarung';
+    document.getElementById('jobDetailDescription').textContent = job.description || '';
+    
+    openModal('jobDetailModal');
+}
+
 function saveData() {
     localStorage.setItem('kmi_favorites', JSON.stringify(APP_DATA.favorites));
     localStorage.setItem('kmi_reservations', JSON.stringify(APP_DATA.reservations));
@@ -8330,25 +8459,32 @@ function renderRestaurants(filter = 'all') {
         // Filter-Logik
         let passesFilter = true;
         if (filter === 'open' && !isOpen) passesFilter = false;
-        if (filter === 'tables' && r.freeTables < 1) passesFilter = false;
+        if (filter === 'tables' && (parseInt(r.freeTables) || 0) < 1) passesFilter = false;
         
         const isVisible = matchesFilter && matchesSearch && passesFilter;
         
         if (isVisible) {
             visibleCount++;
-            totalFreeTables += r.freeTables;
+            totalFreeTables += (parseInt(r.freeTables) || 0);
             if (r.offer) offersCount++;
         }
         
         const isFavorite = APP_DATA.favorites.includes(r.id);
         
+        // NaN-sicher freeTables
+        const freeTablesNum = parseInt(r.freeTables) || 0;
+        
+        // Für Takeaway andere Anzeige
         let availabilityClass, availabilityText;
-        if (r.freeTables === 0) {
+        if (r.serviceType === 'takeaway') {
+            availabilityClass = 'available';
+            availabilityText = '🥡 Abholung/Lieferung';
+        } else if (freeTablesNum === 0) {
             availabilityClass = 'full';
             availabilityText = t.waitlist || 'Warteliste';
-        } else if (r.freeTables <= 2) {
+        } else if (freeTablesNum <= 2) {
             availabilityClass = 'limited';
-            availabilityText = `${t.tablesLeft || 'Noch'} ${r.freeTables} ${r.freeTables === 1 ? (t.table || 'Tisch') : (t.tables || 'Tische')}`;
+            availabilityText = `${t.tablesLeft || 'Noch'} ${freeTablesNum} ${freeTablesNum === 1 ? (t.table || 'Tisch') : (t.tables || 'Tische')}`;
         } else {
             availabilityClass = 'available';
             availabilityText = t.available || 'Sofort verfügbar';
@@ -8359,10 +8495,11 @@ function renderRestaurants(filter = 'all') {
             ? `<span class="open-badge open">${t.openNow || 'Jetzt geöffnet'}</span>`
             : `<span class="open-badge closed">${t.closed || 'Geschlossen'}</span>`;
         
-        // Tische frei Text
-        const tablesText = r.freeTables === 1 
+        // Tische frei Text (NaN-sicher)
+        const tables = parseInt(r.freeTables) || 0;
+        const tablesText = tables === 1 
             ? `1 ${t.table || 'Tisch'} ${currentLanguage === 'nl' ? 'vrij' : (currentLanguage === 'en' ? 'free' : 'frei')}`
-            : `${r.freeTables} ${t.tables || 'Tische'} ${currentLanguage === 'nl' ? 'vrij' : (currentLanguage === 'en' ? 'free' : 'frei')}`;
+            : `${tables} ${t.tables || 'Tische'} ${currentLanguage === 'nl' ? 'vrij' : (currentLanguage === 'en' ? 'free' : 'frei')}`;
         
         // Wartezeit Text
         const waitText = r.waitTime > 0 
@@ -8395,23 +8532,30 @@ function renderRestaurants(filter = 'all') {
             ? `~${waitTimeInfo.waitTime} Min Wartezeit`
             : (t.available || 'Sofort verfügbar');
         
+        // Bilder-Array aufbauen (Hauptbild + zusätzliche Bilder, ohne Duplikate)
+        const allImages = [r.image];
+        if (r.images && Array.isArray(r.images)) {
+            r.images.forEach(img => {
+                if (img && img !== r.image && !allImages.includes(img)) {
+                    allImages.push(img);
+                }
+            });
+        }
+        const hasMultipleImages = allImages.length > 1;
+        
         html += `
             <div class="restaurant-card ${isVisible ? '' : 'hidden'}" data-id="${r.id}" data-cuisine="${r.cuisine}">
-                <div class="card-image-gallery" onclick="openImageGallery('${r.id}')">
+                <div class="card-image-gallery" ${hasMultipleImages ? `onclick="openImageGallery('${r.id}')"` : ''}>
                     <div class="gallery-slider" id="slider-${r.id}">
-                        <div class="gallery-slide active" style="background-image: url('${r.image}')"></div>
-                        ${r.images && r.images.length > 0 ? r.images.map(img => `<div class="gallery-slide" style="background-image: url('${img}')"></div>`).join('') : `
-                        <div class="gallery-slide" style="background-image: url('${r.image}')"></div>
-                        <div class="gallery-slide" style="background-image: url('${r.image}')"></div>
-                        `}
+                        ${allImages.map((img, idx) => `<div class="gallery-slide ${idx === 0 ? 'active' : ''}" style="background-image: url('${img}')"></div>`).join('')}
                     </div>
+                    ${hasMultipleImages ? `
                     <div class="gallery-dots" id="dots-${r.id}">
-                        <span class="gallery-dot active"></span>
-                        <span class="gallery-dot"></span>
-                        <span class="gallery-dot"></span>
+                        ${allImages.map((_, idx) => `<span class="gallery-dot ${idx === 0 ? 'active' : ''}"></span>`).join('')}
                     </div>
                     <div class="gallery-nav gallery-prev" onclick="event.stopPropagation(); slideGallery('${r.id}', -1)">‹</div>
                     <div class="gallery-nav gallery-next" onclick="event.stopPropagation(); slideGallery('${r.id}', 1)">›</div>
+                    ` : ''}
                     <div class="availability-badge ${availabilityClass}">${availabilityText}</div>
                     ${isTrending ? `<div class="trending-badge" style="position: absolute; top: 12px; left: 12px;">🔥 Trending</div>` : ''}
                     ${r.offer ? `<div class="special-badge">${r.offer.discount}</div>` : ''}
@@ -8471,6 +8615,7 @@ function renderRestaurants(filter = 'all') {
                         </div>
                     ` : ''}
                     <div class="card-actions">
+                        ${r.serviceType !== 'takeaway' ? `
                         <button class="card-btn card-btn-primary" onclick="openReservation('${r.id}')">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -8480,12 +8625,17 @@ function renderRestaurants(filter = 'all') {
                             </svg>
                             ${t.reserve || 'Reservieren'}
                         </button>
+                        ` : `
+                        <span class="card-btn" style="background: var(--bg-secondary); color: var(--text-secondary); cursor: default; font-size: 12px;">
+                            🥡 Nur Abholung/Lieferung
+                        </span>
+                        `}
                         ${r.whatsapp ? `
-                            <a href="https://wa.me/${r.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(whatsappMsg)}" target="_blank" class="card-btn card-btn-whatsapp">
+                            <a href="https://wa.me/${r.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(r.serviceType === 'takeaway' ? `Hallo! Ich möchte gerne bei ${r.name} bestellen.` : whatsappMsg)}" target="_blank" class="card-btn card-btn-whatsapp">
                                 <svg viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                                 </svg>
-                                WhatsApp
+                                ${r.serviceType === 'takeaway' ? 'Bestellen' : 'WhatsApp'}
                             </a>
                         ` : ''}
                         ${r.phone ? `
@@ -8620,7 +8770,7 @@ function renderFavorites() {
                 </div>
                 <div class="card-content">
                     <h3 class="restaurant-name">${r.name}</h3>
-                    <p style="color: var(--slate); font-size: 14px;">${r.freeTables} Tische frei</p>
+                    <p style="color: var(--slate); font-size: 14px;">${parseInt(r.freeTables) || 0} Tische frei</p>
                 </div>
             </div>
         `;
@@ -10016,122 +10166,144 @@ async function loadDashboardStats() {
     if (!useSupabase) return;
     
     try {
-        // Restaurants zählen
-        const restResponse = await fetch(`${SUPABASE_URL}/rest/v1/restaurants?select=id&is_active=eq.true`, {
-            headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-        });
-        const restaurants = await restResponse.json();
+        // Restaurants zählen - nutze APP_DATA statt extra Query
+        const restaurantCount = APP_DATA.restaurants.length;
         
         const statRestaurants = document.getElementById('statRestaurants');
-        if (statRestaurants) statRestaurants.textContent = restaurants.length;
+        if (statRestaurants) statRestaurants.textContent = restaurantCount;
         
         const statTotalRestaurants = document.getElementById('statTotalRestaurants');
-        if (statTotalRestaurants) statTotalRestaurants.textContent = restaurants.length;
+        if (statTotalRestaurants) statTotalRestaurants.textContent = restaurantCount;
         
-        // Heutige Reservierungen
+        // Heutige Reservierungen - Query ohne Filter die evtl nicht existieren
         const today = new Date().toISOString().split('T')[0];
-        const resResponse = await fetch(`${SUPABASE_URL}/rest/v1/reservations?select=id,guests&date=eq.${today}`, {
-            headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-        });
-        const todayRes = await resResponse.json();
-        
-        const dashReservationsToday = document.getElementById('dashReservationsToday');
-        if (dashReservationsToday) dashReservationsToday.textContent = todayRes.length;
-        
-        const reservationCount = document.getElementById('reservationCount');
-        if (reservationCount) reservationCount.textContent = todayRes.length;
-        
-        const dashGuestsToday = document.getElementById('dashGuestsToday');
-        if (dashGuestsToday) {
-            const totalGuests = todayRes.reduce((sum, r) => sum + (r.guests || 2), 0);
-            dashGuestsToday.textContent = totalGuests;
-        }
+        try {
+            const resResponse = await fetch(`${SUPABASE_URL}/rest/v1/reservations?select=*`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+            });
+            if (resResponse.ok) {
+                const allRes = await resResponse.json();
+                const todayRes = Array.isArray(allRes) ? allRes.filter(r => r.date === today || (r.created_at && r.created_at.startsWith(today))) : [];
+                
+                const dashReservationsToday = document.getElementById('dashReservationsToday');
+                if (dashReservationsToday) dashReservationsToday.textContent = todayRes.length;
+                
+                const reservationCount = document.getElementById('reservationCount');
+                if (reservationCount) reservationCount.textContent = todayRes.length;
+                
+                const dashGuestsToday = document.getElementById('dashGuestsToday');
+                if (dashGuestsToday) {
+                    const totalGuests = todayRes.reduce((sum, r) => sum + (r.guests || r.party_size || 2), 0);
+                    dashGuestsToday.textContent = totalGuests;
+                }
+            }
+        } catch (e) { /* Reservations Tabelle evtl. nicht vorhanden */ }
         
         // Aktive Angebote
-        const offersResponse = await fetch(`${SUPABASE_URL}/rest/v1/offers?select=id`, {
-            headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-        });
-        const offers = await offersResponse.json();
+        try {
+            const offersResponse = await fetch(`${SUPABASE_URL}/rest/v1/offers?select=id`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+            });
+            if (offersResponse.ok) {
+                const offers = await offersResponse.json();
+                const offersList = Array.isArray(offers) ? offers : [];
+                
+                const dashOffersCount = document.getElementById('dashOffersCount');
+                if (dashOffersCount) dashOffersCount.textContent = offersList.length;
+                
+                const offerCount = document.getElementById('offerCount');
+                if (offerCount) offerCount.textContent = offersList.length;
+            }
+        } catch (e) { /* Offers Tabelle evtl. nicht vorhanden */ }
         
-        const dashOffersCount = document.getElementById('dashOffersCount');
-        if (dashOffersCount) dashOffersCount.textContent = offers.length;
-        
-        const offerCount = document.getElementById('offerCount');
-        if (offerCount) offerCount.textContent = offers.length;
-        
-        // Freie Tische
-        const tablesResponse = await fetch(`${SUPABASE_URL}/rest/v1/restaurants?select=free_tables&is_active=eq.true`, {
-            headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-        });
-        const tablesData = await tablesResponse.json();
-        const totalFreeTables = tablesData.reduce((sum, r) => sum + (r.free_tables || 0), 0);
-        
+        // Freie Tische - aus APP_DATA
+        const totalFreeTables = APP_DATA.restaurants.reduce((sum, r) => sum + (r.freeTables || 5), 0);
         const statTables = document.getElementById('statTables');
         if (statTables) statTables.textContent = totalFreeTables;
         
         // Kunden zählen
-        const customersResponse = await fetch(`${SUPABASE_URL}/rest/v1/customers?select=id,payment_status,is_active`, {
-            headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-        });
-        const customersData = await customersResponse.json();
-        
-        const totalCustomers = document.getElementById('totalCustomers');
-        if (totalCustomers) totalCustomers.textContent = customersData.length;
-        
-        const customerCount = document.getElementById('customerCount');
-        if (customerCount) customerCount.textContent = customersData.length;
-        
-        const paidCustomers = document.getElementById('paidCustomers');
-        if (paidCustomers) paidCustomers.textContent = customersData.filter(c => c.payment_status === 'paid').length;
-        
-        const pendingCustomers = document.getElementById('pendingCustomers');
-        if (pendingCustomers) pendingCustomers.textContent = customersData.filter(c => c.payment_status === 'pending').length;
-        
-        const overdueCustomers = document.getElementById('overdueCustomers');
-        if (overdueCustomers) overdueCustomers.textContent = customersData.filter(c => c.payment_status === 'overdue').length;
+        try {
+            const customersResponse = await fetch(`${SUPABASE_URL}/rest/v1/customers?select=*`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+            });
+            if (customersResponse.ok) {
+                const customersData = await customersResponse.json();
+                const customers = Array.isArray(customersData) ? customersData : [];
+                
+                const totalCustomers = document.getElementById('totalCustomers');
+                if (totalCustomers) totalCustomers.textContent = customers.length;
+                
+                const customerCount = document.getElementById('customerCount');
+                if (customerCount) customerCount.textContent = customers.length;
+                
+                const paidCustomers = document.getElementById('paidCustomers');
+                if (paidCustomers) paidCustomers.textContent = customers.filter(c => c.payment_status === 'paid').length;
+                
+                const pendingCustomers = document.getElementById('pendingCustomers');
+                if (pendingCustomers) pendingCustomers.textContent = customers.filter(c => c.payment_status === 'pending').length;
+                
+                const overdueCustomers = document.getElementById('overdueCustomers');
+                if (overdueCustomers) overdueCustomers.textContent = customers.filter(c => c.payment_status === 'overdue').length;
+            }
+        } catch (e) { /* Customers Tabelle evtl. nicht vorhanden */ }
         
         // Unterkünfte zählen
-        const accResponse = await fetch(`${SUPABASE_URL}/rest/v1/accommodations?select=id,has_availability`, {
-            headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-        });
-        const accData = await accResponse.json();
-        
-        const totalAccommodations = document.getElementById('totalAccommodations');
-        if (totalAccommodations) totalAccommodations.textContent = accData.length;
-        
-        const statTotalAccommodations = document.getElementById('statTotalAccommodations');
-        if (statTotalAccommodations) statTotalAccommodations.textContent = accData.length;
-        
-        const accommodationCount = document.getElementById('accommodationCount');
-        if (accommodationCount) accommodationCount.textContent = accData.length;
-        
-        const availableAccommodations = document.getElementById('availableAccommodations');
-        if (availableAccommodations) availableAccommodations.textContent = accData.filter(a => a.has_availability).length;
+        try {
+            const accResponse = await fetch(`${SUPABASE_URL}/rest/v1/accommodations?select=*`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+            });
+            if (accResponse.ok) {
+                const accData = await accResponse.json();
+                const accommodations = Array.isArray(accData) ? accData : [];
+                
+                const totalAccommodations = document.getElementById('totalAccommodations');
+                if (totalAccommodations) totalAccommodations.textContent = accommodations.length;
+                
+                const statTotalAccommodations = document.getElementById('statTotalAccommodations');
+                if (statTotalAccommodations) statTotalAccommodations.textContent = accommodations.length;
+                
+                const accommodationCount = document.getElementById('accommodationCount');
+                if (accommodationCount) accommodationCount.textContent = accommodations.length;
+                
+                const availableAccommodations = document.getElementById('availableAccommodations');
+                if (availableAccommodations) availableAccommodations.textContent = accommodations.filter(a => a.has_availability).length;
+            }
+        } catch (e) { /* Accommodations Tabelle evtl. nicht vorhanden */ }
         
         // Events zählen
-        const eventsResponse = await fetch(`${SUPABASE_URL}/rest/v1/events?select=id,is_featured,date`, {
-            headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-        });
-        const eventsData = await eventsResponse.json();
-        
-        const statTotalEvents = document.getElementById('statTotalEvents');
-        if (statTotalEvents) statTotalEvents.textContent = eventsData.length;
-        
-        const upcomingEvents = eventsData.filter(e => new Date(e.date) >= new Date());
-        const statUpcomingEvents = document.getElementById('statUpcomingEvents');
-        if (statUpcomingEvents) statUpcomingEvents.textContent = upcomingEvents.length;
-        
-        const statFeaturedEvents = document.getElementById('statFeaturedEvents');
-        if (statFeaturedEvents) statFeaturedEvents.textContent = eventsData.filter(e => e.is_featured).length;
+        try {
+            const eventsResponse = await fetch(`${SUPABASE_URL}/rest/v1/events?select=*`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+            });
+            if (eventsResponse.ok) {
+                const eventsData = await eventsResponse.json();
+                const events = Array.isArray(eventsData) ? eventsData : [];
+                
+                const statTotalEvents = document.getElementById('statTotalEvents');
+                if (statTotalEvents) statTotalEvents.textContent = events.length;
+                
+                const upcomingEvents = events.filter(e => new Date(e.date) >= new Date());
+                const statUpcomingEvents = document.getElementById('statUpcomingEvents');
+                if (statUpcomingEvents) statUpcomingEvents.textContent = upcomingEvents.length;
+                
+                const statFeaturedEvents = document.getElementById('statFeaturedEvents');
+                if (statFeaturedEvents) statFeaturedEvents.textContent = events.filter(e => e.is_featured).length;
+            }
+        } catch (e) { /* Events Tabelle evtl. nicht vorhanden */ }
         
         // Attraktionen zählen
-        const attrResponse = await fetch(`${SUPABASE_URL}/rest/v1/attractions?select=id,category`, {
-            headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-        });
-        const attrData = await attrResponse.json();
-        
-        const statTotalAttractions = document.getElementById('statTotalAttractions');
-        if (statTotalAttractions) statTotalAttractions.textContent = attrData.length;
+        try {
+            const attrResponse = await fetch(`${SUPABASE_URL}/rest/v1/attractions?select=*`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+            });
+            if (attrResponse.ok) {
+                const attrData = await attrResponse.json();
+                const attractions = Array.isArray(attrData) ? attrData : [];
+                
+                const statTotalAttractions = document.getElementById('statTotalAttractions');
+                if (statTotalAttractions) statTotalAttractions.textContent = attractions.length;
+            }
+        } catch (e) { /* Attractions Tabelle evtl. nicht vorhanden */ }
         
         console.log('[OK] Dashboard Stats aktualisiert');
         
@@ -10729,8 +10901,9 @@ function getRewardIconSvg(iconName, size = 24) {
 }
 
 function toggleDiscountField() {
-    const type = document.getElementById('rewardType').value;
-    document.getElementById('discountField').style.display = type === 'discount' ? 'block' : 'none';
+    const type = document.getElementById('rewardType')?.value;
+    const field = document.getElementById('discountField');
+    if (field) field.style.display = type === 'discount' ? 'block' : 'none';
 }
 
 // Einlösungen laden (für Restaurant Dashboard)
@@ -11862,19 +12035,35 @@ let voiceRecognition = null;
 let isListening = false;
 
 function initVoiceRecognition() {
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    // Prüfe ob Browser unterstützt
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        console.log('Speech Recognition nicht unterstützt');
+        return false;
+    }
+    
+    try {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         voiceRecognition = new SpeechRecognition();
         voiceRecognition.continuous = false;
         voiceRecognition.interimResults = true;
         voiceRecognition.lang = 'de-DE';
+        voiceRecognition.maxAlternatives = 1;
+        
+        voiceRecognition.onstart = () => {
+            console.log('Voice Recognition gestartet');
+            isListening = true;
+            updateVoiceButton();
+            const transcript = document.getElementById('voiceTranscript');
+            if (transcript) transcript.textContent = '🎤 Ich höre zu...';
+        };
         
         voiceRecognition.onresult = (event) => {
             const transcript = Array.from(event.results)
                 .map(result => result[0].transcript)
                 .join('');
             
-            document.getElementById('voiceTranscript').textContent = transcript;
+            const transcriptEl = document.getElementById('voiceTranscript');
+            if (transcriptEl) transcriptEl.textContent = transcript;
             
             if (event.results[0].isFinal) {
                 processVoiceCommand(transcript);
@@ -11882,6 +12071,7 @@ function initVoiceRecognition() {
         };
         
         voiceRecognition.onend = () => {
+            console.log('Voice Recognition beendet');
             isListening = false;
             updateVoiceButton();
         };
@@ -11891,20 +12081,55 @@ function initVoiceRecognition() {
             isListening = false;
             updateVoiceButton();
             
-            if (event.error === 'not-allowed') {
-                showToast('Mikrofon-Zugriff verweigert', 'error');
+            const transcript = document.getElementById('voiceTranscript');
+            
+            switch(event.error) {
+                case 'not-allowed':
+                case 'permission-denied':
+                    if (transcript) transcript.textContent = '❌ Mikrofon-Zugriff verweigert';
+                    showToast('Bitte erlaube den Mikrofon-Zugriff in den Browser-Einstellungen', 'error');
+                    break;
+                case 'no-speech':
+                    if (transcript) transcript.textContent = '🔇 Keine Sprache erkannt - tippe nochmal';
+                    break;
+                case 'audio-capture':
+                    if (transcript) transcript.textContent = '❌ Kein Mikrofon gefunden';
+                    showToast('Kein Mikrofon gefunden', 'error');
+                    break;
+                case 'network':
+                    if (transcript) transcript.textContent = '❌ Netzwerkfehler';
+                    showToast('Internetverbindung prüfen', 'error');
+                    break;
+                case 'aborted':
+                    if (transcript) transcript.textContent = 'Abgebrochen - tippe zum Starten';
+                    break;
+                default:
+                    if (transcript) transcript.textContent = 'Fehler - tippe nochmal';
             }
         };
         
+        voiceRecognition.onnomatch = () => {
+            const transcript = document.getElementById('voiceTranscript');
+            if (transcript) transcript.textContent = '🤔 Nicht verstanden - bitte nochmal';
+        };
+        
         return true;
+    } catch(e) {
+        console.error('Voice init error:', e);
+        return false;
     }
-    return false;
 }
 
 function toggleVoiceRecognition() {
+    // Prüfe HTTPS
+    if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+        showToast('Spracherkennung erfordert HTTPS', 'error');
+        return;
+    }
+    
     if (!voiceRecognition) {
         if (!initVoiceRecognition()) {
-            showToast('Spracherkennung nicht unterstützt', 'error');
+            showToast('Spracherkennung nicht unterstützt. Nutze Chrome oder Safari.', 'error');
             return;
         }
     }
@@ -11914,14 +12139,12 @@ function toggleVoiceRecognition() {
         isListening = false;
     } else {
         openModal('voiceReservationModal');
-        document.getElementById('voiceTranscript').textContent = 'Höre zu...';
-        document.getElementById('voiceResult').innerHTML = '';
         
-        setTimeout(() => {
-            voiceRecognition.start();
-            isListening = true;
-            updateVoiceButton();
-        }, 500);
+        const transcript = document.getElementById('voiceTranscript');
+        if (transcript) transcript.textContent = 'Tippe auf das Mikrofon zum Starten...';
+        
+        const result = document.getElementById('voiceResult');
+        if (result) result.innerHTML = '';
     }
 }
 
@@ -12075,23 +12298,55 @@ function displayVoiceResult(persons, time, date, restaurant, cuisine) {
 }
 
 function retryVoice() {
+    // Prüfe HTTPS
+    if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+        showToast('Spracherkennung erfordert HTTPS', 'error');
+        return;
+    }
+    
     if (!voiceRecognition) {
         if (!initVoiceRecognition()) {
-            showToast('Spracherkennung nicht unterstützt', 'error');
+            showToast('Spracherkennung nicht unterstützt. Nutze Chrome oder Safari.', 'error');
             return;
         }
     }
     
-    document.getElementById('voiceTranscript').textContent = 'Höre zu...';
-    document.getElementById('voiceResult').innerHTML = '';
+    // Stoppe falls noch aktiv
+    if (isListening) {
+        try {
+            voiceRecognition.stop();
+        } catch(e) {}
+        
+        // Warte kurz bevor neu gestartet wird
+        setTimeout(() => {
+            startVoiceRecognition();
+        }, 300);
+    } else {
+        startVoiceRecognition();
+    }
+}
+
+function startVoiceRecognition() {
+    const transcript = document.getElementById('voiceTranscript');
+    const result = document.getElementById('voiceResult');
+    
+    if (transcript) transcript.textContent = '🎤 Höre zu...';
+    if (result) result.innerHTML = '';
     
     try {
         voiceRecognition.start();
         isListening = true;
         updateVoiceButton();
     } catch(e) {
-        console.error('Voice error:', e);
-        showToast('Bitte erneut versuchen', 'error');
+        console.error('Voice start error:', e);
+        
+        if (e.message && e.message.includes('already started')) {
+            // Bereits gestartet - ignorieren
+            return;
+        }
+        
+        if (transcript) transcript.textContent = '❌ Fehler - bitte Seite neu laden';
+        showToast('Spracherkennung konnte nicht gestartet werden', 'error');
     }
 }
 
@@ -12629,9 +12884,13 @@ function previewImageFromUrl(url) {
 }
 
 function clearImagePreview() {
-    document.getElementById('imagePreviewContainer').style.display = 'none';
-    document.getElementById('imagePreview').src = '';
-    document.getElementById('newRestaurantImage').value = '';
+    const container = document.getElementById('imagePreviewContainer');
+    const preview = document.getElementById('imagePreview');
+    const input = document.getElementById('newRestaurantImage');
+    
+    if (container) container.style.display = 'none';
+    if (preview) preview.src = '';
+    if (input) input.value = '';
     uploadedImageBase64 = null;
 }
 
@@ -12647,6 +12906,7 @@ async function addRestaurant(e) {
     const name = document.getElementById('newRestaurantName').value;
     const cuisine = document.getElementById('newRestaurantCuisine').value;
     const description = document.getElementById('newRestaurantDescription')?.value || '';
+    const serviceType = document.getElementById('newRestaurantServiceType')?.value || 'dine_in';
     const phone = document.getElementById('newRestaurantPhone').value || '';
     const whatsapp = document.getElementById('newRestaurantWhatsapp').value || null;
     const email = document.getElementById('newRestaurantEmail').value || null;
@@ -12694,7 +12954,46 @@ async function addRestaurant(e) {
     
     // Hauptbild (erstes Bild oder Default)
     const image = allImages[0] || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800';
-    const tables = parseInt(document.getElementById('newRestaurantTables')?.value) || 8;
+    const tables = parseInt(document.getElementById('newRestaurantTables')?.value) || 10;
+    
+    // Öffnungszeiten sammeln
+    const openingHours = {
+        monday: {
+            open: document.getElementById('monOpen')?.value || '11:00',
+            close: document.getElementById('monClose')?.value || '22:00',
+            closed: document.getElementById('monClosed')?.checked || false
+        },
+        tuesday: {
+            open: document.getElementById('tueOpen')?.value || '11:00',
+            close: document.getElementById('tueClose')?.value || '22:00',
+            closed: document.getElementById('tueClosed')?.checked || false
+        },
+        wednesday: {
+            open: document.getElementById('wedOpen')?.value || '11:00',
+            close: document.getElementById('wedClose')?.value || '22:00',
+            closed: document.getElementById('wedClosed')?.checked || false
+        },
+        thursday: {
+            open: document.getElementById('thuOpen')?.value || '11:00',
+            close: document.getElementById('thuClose')?.value || '22:00',
+            closed: document.getElementById('thuClosed')?.checked || false
+        },
+        friday: {
+            open: document.getElementById('friOpen')?.value || '11:00',
+            close: document.getElementById('friClose')?.value || '23:00',
+            closed: document.getElementById('friClosed')?.checked || false
+        },
+        saturday: {
+            open: document.getElementById('satOpen')?.value || '11:00',
+            close: document.getElementById('satClose')?.value || '23:00',
+            closed: document.getElementById('satClosed')?.checked || false
+        },
+        sunday: {
+            open: document.getElementById('sunOpen')?.value || '11:00',
+            close: document.getElementById('sunClose')?.value || '22:00',
+            closed: document.getElementById('sunClosed')?.checked || false
+        }
+    };
     
     // Koordinaten basierend auf Ort
     const cityCoords = {
@@ -12727,7 +13026,10 @@ async function addRestaurant(e) {
         rating: rating,
         review_count: reviewCount,
         price_level: priceLevel,
-        features: features.length > 0 ? features : null
+        features: serviceType === 'takeaway' 
+            ? [...features, 'takeaway_only'] 
+            : features.filter(f => f !== 'takeaway_only'),
+        opening_hours: openingHours
     };
     
     // Nur bei Neuanlage Koordinaten und Status setzen
@@ -16931,7 +17233,7 @@ window.addEventListener('appinstalled', () => {
             
             <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--dark);">Kontakt</h3>
             <p style="color: var(--slate); line-height: 1.6; margin-bottom: 16px;">
-                E-Mail: <a href="/cdn-cgi/l/email-protection#056c6b636a456e6c606e686a696c6b2b6160" style="color: var(--primary);"><span class="__cf_email__" data-cfemail="cda4a3aba28da6a4a8a6a0a2a1a4a3e3a9a8">[email&#160;protected]</span></a>
+                E-Mail: <a href="/cdn-cgi/l/email-protection#660f080009260d0f030d0b090a0f08480203" style="color: var(--primary);"><span class="__cf_email__" data-cfemail="51383f373e113a38343a3c3e3d383f7f3534">[email&#160;protected]</span></a>
             </p>
             
             <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--dark);">Verantwortlich für den Inhalt</h3>
@@ -16978,7 +17280,7 @@ window.addEventListener('appinstalled', () => {
                     </div>
                     <div>
                         <div style="font-size: 12px; color: var(--text-secondary);">E-Mail</div>
-                        <a href="/cdn-cgi/l/email-protection#8fe6e1e9e0cfe4e6eae4e2e0e3e6e1a1ebea" style="color: var(--primary); font-weight: 600; text-decoration: none;"><span class="__cf_email__" data-cfemail="0b62656d644b60626e606664676265256f6e">[email&#160;protected]</span></a>
+                        <a href="/cdn-cgi/l/email-protection#d7beb9b1b897bcbeb2bcbab8bbbeb9f9b3b2" style="color: var(--primary); font-weight: 600; text-decoration: none;"><span class="__cf_email__" data-cfemail="1871767e775873717d737577747176367c7d">[email&#160;protected]</span></a>
                     </div>
                 </div>
                 
@@ -17024,7 +17326,7 @@ window.addEventListener('appinstalled', () => {
                 Kurani Design<br>
                 Waller Weg 37<br>
                 26624 Südbrookmerland<br>
-                E-Mail: <a href="/cdn-cgi/l/email-protection#ed84838b82ad868488868082818483c38988" style="color: var(--primary);"><span class="__cf_email__" data-cfemail="8ee7e0e8e1cee5e7ebe5e3e1e2e7e0a0eaeb">[email&#160;protected]</span></a>
+                E-Mail: <a href="/cdn-cgi/l/email-protection#fe97909891be95979b959391929790d09a9b" style="color: var(--primary);"><span class="__cf_email__" data-cfemail="b2dbdcd4ddf2d9dbd7d9dfdddedbdc9cd6d7">[email&#160;protected]</span></a>
             </p>
             
             <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--dark);">3. Welche Daten wir erheben</h3>
@@ -17041,7 +17343,7 @@ window.addEventListener('appinstalled', () => {
             
             <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--dark);">5. Ihre Rechte</h3>
             <p style="color: var(--slate); line-height: 1.6; margin-bottom: 16px; font-size: 14px;">
-                Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten. Kontaktieren Sie uns unter <a href="/cdn-cgi/l/email-protection#2841464e476843414d434547444146064c4d" style="color: var(--primary);"><span class="__cf_email__" data-cfemail="2e474048416e45474b454341424740004a4b">[email&#160;protected]</span></a>.
+                Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten. Kontaktieren Sie uns unter <a href="/cdn-cgi/l/email-protection#a1c8cfc7cee1cac8c4cacccecdc8cf8fc5c4" style="color: var(--primary);"><span class="__cf_email__" data-cfemail="660f080009260d0f030d0b090a0f08480203">[email&#160;protected]</span></a>.
             </p>
             
             <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--dark);">6. Wetter-Daten</h3>
@@ -17628,12 +17930,12 @@ window.addEventListener('appinstalled', () => {
 <div class="modal-overlay" id="voiceReservationModal">
     <div class="modal" style="max-width: 420px;">
         <div class="modal-header">
-            <h2 class="modal-title">Sprach-Reservierung</h2>
-            <button class="modal-close" onclick="closeModal('voiceReservationModal')">×</button>
+            <h2 class="modal-title">🎤 Sprach-Reservierung</h2>
+            <button class="modal-close" onclick="closeModal('voiceReservationModal'); if(voiceRecognition && isListening) voiceRecognition.stop();">×</button>
         </div>
         <div class="modal-body" style="text-align: center;">
             <!-- Mikrofon Animation -->
-            <div id="voiceMicBtn" onclick="retryVoice()" style="width: 100px; height: 100px; background: var(--primary); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s;">
+            <div id="voiceMicBtn" onclick="retryVoice()" style="width: 100px; height: 100px; background: var(--primary); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; position: relative;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="40" height="40">
                     <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
@@ -17645,23 +17947,25 @@ window.addEventListener('appinstalled', () => {
             <style>
                 #voiceMicBtn.listening {
                     animation: pulse 1.5s infinite;
-                    box-shadow: 0 0 0 0 rgba(26, 75, 99, 0.7);
+                    background: #34c759 !important;
                 }
                 @keyframes pulse {
-                    0% { box-shadow: 0 0 0 0 rgba(26, 75, 99, 0.7); }
-                    70% { box-shadow: 0 0 0 20px rgba(26, 75, 99, 0); }
-                    100% { box-shadow: 0 0 0 0 rgba(26, 75, 99, 0); }
+                    0% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7); transform: scale(1); }
+                    50% { box-shadow: 0 0 0 20px rgba(52, 199, 89, 0); transform: scale(1.05); }
+                    100% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); transform: scale(1); }
                 }
             </style>
             
-            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
-                Sag zum Beispiel:<br>
-                <em>"Tisch für 4 Personen heute Abend"</em>
+            <p style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">
+                Tippe auf das Mikrofon und sprich
+            </p>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+                z.B. <em>"Tisch für 4 Personen heute Abend beim Italiener"</em>
             </p>
             
             <!-- Transkript -->
-            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 16px; min-height: 50px; margin-bottom: 16px;">
-                <p id="voiceTranscript" style="margin: 0; font-size: 16px;">Tippe auf das Mikrofon...</p>
+            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 16px; min-height: 60px; margin-bottom: 16px; border: 2px dashed var(--border-color);">
+                <p id="voiceTranscript" style="margin: 0; font-size: 16px; color: var(--text-primary);">Tippe auf das Mikrofon zum Starten...</p>
             </div>
             
             <!-- Ergebnis -->
@@ -17669,9 +17973,18 @@ window.addEventListener('appinstalled', () => {
                 <!-- Wird dynamisch gefüllt -->
             </div>
             
-            <button onclick="retryVoice()" class="btn btn-secondary" style="margin-top: 16px;">
-                Nochmal versuchen
-            </button>
+            <div style="display: flex; gap: 10px; margin-top: 16px;">
+                <button onclick="retryVoice()" class="btn btn-primary" style="flex: 1;">
+                    🎤 Nochmal sprechen
+                </button>
+                <button onclick="closeModal('voiceReservationModal')" class="btn btn-secondary" style="flex: 1;">
+                    Abbrechen
+                </button>
+            </div>
+            
+            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 16px;">
+                💡 Tipp: Funktioniert am besten mit Chrome oder Safari
+            </p>
         </div>
     </div>
 </div>
@@ -17836,3 +18149,4 @@ window.addEventListener('appinstalled', () => {
             
             <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--dark);">6. Haftung</h3>
             <p style="color: var(--slate); line-height: 1.6; margin-bottom: 16px; font-size: 14px;">
+ Der Anbieter haftet nicht für technische Störungen, Datenver
