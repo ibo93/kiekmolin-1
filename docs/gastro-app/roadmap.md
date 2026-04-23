@@ -94,11 +94,18 @@ Gastronomen zahlen.
 - **Step by step sauber.** Jede Phase wird fertig, bevor die nächste
   beginnt.
 
+## Getroffene Entscheidungen
+
+- [x] **Plattform:** Web-First als PWA + WhatsApp-Bot
+      (siehe [plattform.md](plattform.md))
+- [x] **Tech-Stack:** Next.js + TypeScript + Supabase + Claude Sonnet 4.6
+      (siehe [tech-stack.md](tech-stack.md))
+- [x] **Preismodell:** Drei Tarife, 29 / 59 / 129 € / Monat
+      (siehe [preismodell.md](preismodell.md))
+
 ## Offene Punkte
 
-- [ ] Erster Pilot-Gastronom (Name, Laden, Start-Datum)
-- [ ] Plattform-Entscheidung: iOS zuerst, Android zuerst, oder Web als
-      Inhaber-Cockpit?
-- [ ] Tech-Stack und Architektur (eigenes Dokument in Phase C)
-- [ ] Preismodell (Abo, Einmalzahlung, Freemium)
+- [ ] **Erster Pilot-Gastronom** (Name, Laden, Start-Datum) – wichtigster Punkt
 - [ ] Datenschutz / AV-Verträge (Belege enthalten personenbezogene Daten)
+- [ ] Projekt-Setup: Next.js-App im Repo initialisieren
+- [ ] Erster vertikaler Flow: Foto → Claude API → erkannter Beleg

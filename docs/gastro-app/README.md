@@ -29,3 +29,7 @@ Schätzungen.
 - [vision.md](vision.md) – Langfristige Vision und Produkt-Haltung
 - [zielgruppe.md](zielgruppe.md) – Für wen wir wann bauen
 - [roadmap.md](roadmap.md) – MVP und drei Phasen
+- [plattform.md](plattform.md) – Web-First als PWA, WhatsApp-Bot als Zweitweg
+- [tech-stack.md](tech-stack.md) – Next.js, Supabase, Claude Sonnet 4.6
+- [preismodell.md](preismodell.md) – Tarife und Pilot-Konditionen
+- [mockup.html](mockup.html) – Klickbarer Design-Prototyp (3 Screens)
