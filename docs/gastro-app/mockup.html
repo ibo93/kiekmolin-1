@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gastro-App – Mockup</title>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --card: #ffffff;
+    --text: #1c1c1e;
+    --text-dim: #8e8e93;
+    --primary: #0a84ff;
+    --green: #30d158;
+    --yellow: #ffd60a;
+    --red: #ff453a;
+    --border: #e5e5ea;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .phone {
+    width: 390px;
+    height: 780px;
+    background: #000;
+    border-radius: 50px;
+    padding: 12px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 30px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 10;
+  }
+  .screen {
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    border-radius: 38px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .status-bar {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 30px 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg);
+  }
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px 100px;
+  }
+  .tab-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 84px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-top: 10px;
+    border-radius: 0 0 38px 38px;
+  }
+  .tab {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 4px 12px;
+    font-family: inherit;
+  }
+  .tab.active { color: var(--primary); }
+  .tab .icon { font-size: 22px; }
+
+  .screen-view { display: none; }
+  .screen-view.active { display: block; }
+
+  h1 { font-size: 28px; font-weight: 700; margin: 16px 0 4px; }
+  h2 { font-size: 20px; font-weight: 700; margin: 24px 0 12px; }
+  .subtitle { color: var(--text-dim); font-size: 15px; margin-bottom: 16px; }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .scan-btn {
+    width: 100%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 22px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(10,132,255,0.35);
+    font-family: inherit;
+    margin: 8px 0 20px;
+  }
+  .scan-btn .emoji { font-size: 28px; }
+
+  .stock-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .stock-tile {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 14px;
+  }
+  .stock-tile .label { font-size: 13px; color: var(--text-dim); }
+  .stock-tile .value { font-size: 22px; font-weight: 700; margin-top: 2px; }
+  .stock-tile .warn { color: var(--red); font-size: 12px; margin-top: 4px; }
+  .stock-tile .ok { color: var(--green); font-size: 12px; margin-top: 4px; }
+
+  .dish {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .ampel {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .ampel.green { background: var(--green); box-shadow: 0 0 10px rgba(48,209,88,0.5); }
+  .ampel.yellow { background: var(--yellow); box-shadow: 0 0 10px rgba(255,214,10,0.5); }
+  .ampel.red { background: var(--red); box-shadow: 0 0 10px rgba(255,69,58,0.5); }
+  .dish-name { flex: 1; font-weight: 600; font-size: 16px; }
+  .dish-margin { font-weight: 700; font-size: 15px; }
+  .margin-green { color: var(--green); }
+  .margin-yellow { color: #c48a00; }
+  .margin-red { color: var(--red); }
+  .dish-sub { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+  .suggestion-card {
+    background: linear-gradient(135deg, #fff4d6 0%, #ffe5a8 100%);
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+  .suggestion-card .tag {
+    display: inline-block;
+    background: rgba(0,0,0,0.08);
+    color: var(--text);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .suggestion-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 10px 0 6px;
+  }
+  .suggestion-card p {
+    font-size: 14px;
+    color: #5a4a00;
+    line-height: 1.4;
+  }
+
+  .beleg-header {
+    text-align: center;
+    padding: 30px 0 20px;
+  }
+  .beleg-header .checkmark {
+    width: 64px;
+    height: 64px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32px;
+    margin: 0 auto 12px;
+  }
+  .beleg-header h2 { margin: 0; }
+  .beleg-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .beleg-item:last-child { border-bottom: none; }
+  .beleg-item .qty { color: var(--text-dim); font-size: 13px; }
+  .beleg-item .price { font-weight: 600; }
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0 4px;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .confirm-btn {
+    width: 100%;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+    font-family: inherit;
+  }
+
+  .bestand-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .bestand-item:last-child { border-bottom: none; }
+  .bestand-name { font-weight: 600; }
+  .bestand-sub { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+  .badge {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .badge-red { background: #ffe5e3; color: var(--red); }
+  .badge-yellow { background: #fff6d1; color: #b87a00; }
+  .badge-green { background: #d9f7e0; color: #117a2f; }
+
+  .greeting {
+    font-size: 15px;
+    color: var(--text-dim);
+    margin-top: 8px;
+  }
+
+  .legend {
+    text-align: center;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 10px;
+    max-width: 390px;
+  }
+  .caption {
+    text-align: center;
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    body { padding: 20px 10px; }
+    .phone { transform: scale(0.85); transform-origin: top center; margin-bottom: -80px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Phone 1: Home -->
+<div class="column">
+  <div class="phone">
+    <div class="screen">
+      <div class="status-bar"><span>9:41</span><span>●●●●● 100%</span></div>
+      <div class="content">
+        <div class="greeting">Dienstag, 23. April</div>
+        <h1>Moin, Halil 👋</h1>
+
+        <button class="scan-btn" onclick="alert('Kamera würde jetzt öffnen – Beleg fotografieren')">
+          <span class="emoji">📸</span> Beleg scannen
+        </button>
+
+        <div class="suggestion-card">
+          <span class="tag">💡 Vorschlag heute</span>
+          <h3>Lachs-Special</h3>
+          <p>Du hast noch 2 kg Lachs, geht morgen schlecht. Als Tagesgericht für 16,90 € – Marge 62 %.</p>
+        </div>
+
+        <h2>Bestand</h2>
+        <div class="stock-grid">
+          <div class="stock-tile">
+            <div class="label">Hähnchen</div>
+            <div class="value">4,2 kg</div>
+            <div class="ok">✓ reicht 3 Tage</div>
+          </div>
+          <div class="stock-tile">
+            <div class="label">Tomaten</div>
+            <div class="value">1,1 kg</div>
+            <div class="warn">⚠ schlecht in 2 Tagen</div>
+          </div>
+          <div class="stock-tile">
+            <div class="label">Mehl</div>
+            <div class="value">12 kg</div>
+            <div class="ok">✓ reicht 1 Woche</div>
+          </div>
+          <div class="stock-tile">
+            <div class="label">Öl</div>
+            <div class="value">0,8 l</div>
+            <div class="warn">⚠ nachbestellen</div>
+          </div>
+        </div>
+
+        <h2>Gerichte heute</h2>
+        <div class="card">
+          <div class="dish">
+            <div class="ampel green"></div>
+            <div style="flex:1">
+              <div class="dish-name">Döner-Teller</div>
+              <div class="dish-sub">Wareneinsatz 2,80 € · Preis 9,90 €</div>
+            </div>
+            <div class="dish-margin margin-green">72 %</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="dish">
+            <div class="ampel yellow"></div>
+            <div style="flex:1">
+              <div class="dish-name">Lahmacun</div>
+              <div class="dish-sub">Wareneinsatz 2,10 € · Preis 5,50 €</div>
+            </div>
+            <div class="dish-margin margin-yellow">62 %</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="dish">
+            <div class="ampel red"></div>
+            <div style="flex:1">
+              <div class="dish-name">Caesar Salad</div>
+              <div class="dish-sub">Wareneinsatz 4,20 € · Preis 7,90 €</div>
+            </div>
+            <div class="dish-margin margin-red">47 %</div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <button class="tab active"><span class="icon">🏠</span>Heute</button>
+        <button class="tab"><span class="icon">📦</span>Bestand</button>
+        <button class="tab"><span class="icon">🍽️</span>Gerichte</button>
+        <button class="tab"><span class="icon">📊</span>Woche</button>
+      </div>
+    </div>
+  </div>
+  <div class="legend">🏠 Home</div>
+  <div class="caption">Was heute wichtig ist</div>
+</div>
+
+<!-- Phone 2: Beleg erkannt -->
+<div class="column">
+  <div class="phone">
+    <div class="screen">
+      <div class="status-bar"><span>9:42</span><span>●●●●● 100%</span></div>
+      <div class="content">
+        <div class="beleg-header">
+          <div class="checkmark">✓</div>
+          <h2>Beleg erkannt</h2>
+          <div class="subtitle">Metro · 23.04.2026 · 14:12</div>
+        </div>
+
+        <div class="card">
+          <div class="beleg-item">
+            <div>
+              <div style="font-weight:600">Hähnchenbrust</div>
+              <div class="qty">5 kg · 9,90 €/kg</div>
+            </div>
+            <div class="price">49,50 €</div>
+          </div>
+          <div class="beleg-item">
+            <div>
+              <div style="font-weight:600">Paprika rot</div>
+              <div class="qty">3 kg · 3,20 €/kg</div>
+            </div>
+            <div class="price">9,60 €</div>
+          </div>
+          <div class="beleg-item">
+            <div>
+              <div style="font-weight:600">Olivenöl 5 L</div>
+              <div class="qty">1 Stk · 28,40 €</div>
+            </div>
+            <div class="price">28,40 €</div>
+          </div>
+          <div class="beleg-item">
+            <div>
+              <div style="font-weight:600">Zwiebeln</div>
+              <div class="qty">10 kg · 1,80 €/kg</div>
+            </div>
+            <div class="price">18,00 €</div>
+          </div>
+          <div class="total-row">
+            <span>Summe</span>
+            <span>105,50 €</span>
+          </div>
+        </div>
+
+        <div class="card" style="background:#eaf5ff;">
+          <div style="font-size:14px; color:#0a84ff; font-weight:600;">💡 KI-Hinweis</div>
+          <div style="font-size:13px; color:#333; margin-top:4px;">
+            Hähnchen ist 12 % teurer als letzte Woche. Marge beim Döner-Teller sinkt auf 70 %.
+          </div>
+        </div>
+
+        <button class="confirm-btn" onclick="alert('Bestand aktualisiert!')">
+          ✓ Bestand aktualisieren
+        </button>
+      </div>
+      <div class="tab-bar">
+        <button class="tab active"><span class="icon">🏠</span>Heute</button>
+        <button class="tab"><span class="icon">📦</span>Bestand</button>
+        <button class="tab"><span class="icon">🍽️</span>Gerichte</button>
+        <button class="tab"><span class="icon">📊</span>Woche</button>
+      </div>
+    </div>
+  </div>
+  <div class="legend">📸 Beleg scannen</div>
+  <div class="caption">Foto → KI erkennt alles automatisch</div>
+</div>
+
+<!-- Phone 3: Bestand -->
+<div class="column">
+  <div class="phone">
+    <div class="screen">
+      <div class="status-bar"><span>9:43</span><span>●●●●● 100%</span></div>
+      <div class="content">
+        <h1>Bestand</h1>
+        <div class="subtitle">42 Artikel · zuletzt aktualisiert 9:42</div>
+
+        <h2>⚠ Bald schlecht</h2>
+        <div class="card">
+          <div class="bestand-item">
+            <div>
+              <div class="bestand-name">Tomaten</div>
+              <div class="bestand-sub">1,1 kg · schlecht in 2 Tagen</div>
+            </div>
+            <span class="badge badge-red">dringend</span>
+          </div>
+          <div class="bestand-item">
+            <div>
+              <div class="bestand-name">Salat</div>
+              <div class="bestand-sub">3 Köpfe · schlecht in 3 Tagen</div>
+            </div>
+            <span class="badge badge-yellow">bald</span>
+          </div>
+        </div>
+
+        <h2>🛒 Nachbestellen</h2>
+        <div class="card">
+          <div class="bestand-item">
+            <div>
+              <div class="bestand-name">Öl</div>
+              <div class="bestand-sub">0,8 l · reicht 1 Tag</div>
+            </div>
+            <span class="badge badge-red">leer</span>
+          </div>
+          <div class="bestand-item">
+            <div>
+              <div class="bestand-name">Joghurtsoße</div>
+              <div class="bestand-sub">1,5 kg · reicht 2 Tage</div>
+            </div>
+            <span class="badge badge-yellow">niedrig</span>
+          </div>
+        </div>
+
+        <h2>✓ Alles im grünen Bereich</h2>
+        <div class="card">
+          <div class="bestand-item">
+            <div>
+              <div class="bestand-name">Hähnchen</div>
+              <div class="bestand-sub">4,2 kg · reicht 3 Tage</div>
+            </div>
+            <span class="badge badge-green">ok</span>
+          </div>
+          <div class="bestand-item">
+            <div>
+              <div class="bestand-name">Mehl</div>
+              <div class="bestand-sub">12 kg · reicht 1 Woche</div>
+            </div>
+            <span class="badge badge-green">ok</span>
+          </div>
+          <div class="bestand-item">
+            <div>
+              <div class="bestand-name">Reis</div>
+              <div class="bestand-sub">8 kg · reicht 5 Tage</div>
+            </div>
+            <span class="badge badge-green">ok</span>
+          </div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <button class="tab"><span class="icon">🏠</span>Heute</button>
+        <button class="tab active"><span class="icon">📦</span>Bestand</button>
+        <button class="tab"><span class="icon">🍽️</span>Gerichte</button>
+        <button class="tab"><span class="icon">📊</span>Woche</button>
+      </div>
+    </div>
+  </div>
+  <div class="legend">📦 Bestand</div>
+  <div class="caption">Warnt, bevor's zu spät ist</div>
+</div>
+
+</body>
+</html>
