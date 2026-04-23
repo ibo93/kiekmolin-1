@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Gastro-App – Dein KI-Assistent</title>
+<meta name="description" content="Beleg fotografieren, Bestand aktualisiert sich. Kalkulation live. Sogar Halil versteht es.">
+<meta name="theme-color" content="#f5f5f7">
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --card: #ffffff;
+    --text: #1c1c1e;
+    --text-dim: #8e8e93;
+    --primary: #0a84ff;
+    --green: #30d158;
+    --yellow: #ffd60a;
+    --yellow-text: #c48a00;
+    --red: #ff453a;
+    --border: #e5e5ea;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  .app {
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding-bottom: 96px;
+    background: var(--bg);
+    position: relative;
+  }
+  main { padding: 24px 20px 20px; }
+  .view { display: none; animation: fade 0.2s ease; }
+  .view.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.4px; }
+  h2 { font-size: 20px; font-weight: 700; margin: 24px 0 12px; }
+  .dim { color: var(--text-dim); font-size: 14px; }
+  .back { color: var(--primary); font-size: 14px; text-decoration: none; display: inline-block; margin-bottom: 8px; cursor: pointer; background: none; border: none; padding: 0; font-family: inherit; }
+
+  .scan-btn {
+    width: 100%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(10,132,255,0.35);
+    font-family: inherit;
+    margin-top: 20px;
+    transition: transform 0.1s;
+  }
+  .scan-btn:active { transform: scale(0.98); }
+  .scan-btn .emoji { font-size: 26px; }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+
+  .suggestion {
+    background: linear-gradient(135deg, #fff4d6 0%, #ffe5a8 100%);
+    border-radius: 20px;
+    padding: 18px;
+    margin-top: 20px;
+  }
+  .tag {
+    display: inline-block;
+    background: rgba(0,0,0,0.08);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .suggestion h3 { font-size: 20px; font-weight: 700; margin: 10px 0 6px; }
+  .suggestion p { font-size: 14px; color: #5a4a00; line-height: 1.4; }
+
+  .stock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stock-tile { background: var(--card); border-radius: 14px; padding: 14px; }
+  .stock-tile .label { font-size: 13px; color: var(--text-dim); }
+  .stock-tile .value { font-size: 22px; font-weight: 700; margin-top: 2px; }
+  .stock-tile .warn { color: var(--red); font-size: 12px; margin-top: 4px; }
+  .stock-tile .ok { color: var(--green); font-size: 12px; margin-top: 4px; }
+
+  .dish { display: flex; align-items: center; gap: 14px; }
+  .ampel { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+  .ampel.green { background: var(--green); box-shadow: 0 0 10px rgba(48,209,88,0.5); }
+  .ampel.yellow { background: var(--yellow); box-shadow: 0 0 10px rgba(255,214,10,0.5); }
+  .ampel.red { background: var(--red); box-shadow: 0 0 10px rgba(255,69,58,0.5); }
+  .dish-name { flex: 1; font-weight: 600; font-size: 16px; }
+  .dish-margin { font-weight: 700; font-size: 15px; }
+  .margin-green { color: var(--green); }
+  .margin-yellow { color: var(--yellow-text); }
+  .margin-red { color: var(--red); }
+  .dish-sub { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+  .bestand-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0; border-bottom: 1px solid var(--border);
+  }
+  .bestand-item:last-child { border-bottom: none; }
+  .bestand-name { font-weight: 600; }
+  .bestand-sub { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+  .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .badge-red { background: #ffe5e3; color: var(--red); }
+  .badge-yellow { background: #fff6d1; color: #b87a00; }
+  .badge-green { background: #d9f7e0; color: #117a2f; }
+
+  .photo-dropzone {
+    aspect-ratio: 3/4;
+    width: 100%;
+    border: 2px dashed var(--border);
+    background: var(--card);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 32px;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+  }
+  .photo-dropzone .emoji { font-size: 72px; }
+  .photo-dropzone .label { font-weight: 600; font-size: 18px; }
+
+  .loading {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 80px 20px;
+  }
+  .spinner {
+    width: 56px; height: 56px; border: 4px solid var(--border);
+    border-top-color: var(--primary); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin-bottom: 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .beleg-header { text-align: center; padding: 24px 0 20px; }
+  .checkmark {
+    width: 64px; height: 64px; background: var(--green); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; color: #fff;
+    font-size: 32px; margin: 0 auto 12px;
+  }
+  .beleg-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .beleg-item:last-child { border-bottom: none; }
+  .beleg-item .qty { color: var(--text-dim); font-size: 13px; margin-top: 2px; }
+  .beleg-item .price { font-weight: 600; }
+  .total-row { display: flex; justify-content: space-between; padding: 14px 0 4px; font-weight: 700; font-size: 18px; }
+  .hint-card {
+    background: #eaf5ff; border-radius: 16px; padding: 14px; margin-top: 12px;
+  }
+  .hint-card .title { color: var(--primary); font-weight: 600; font-size: 14px; }
+  .hint-card p { font-size: 13px; margin-top: 4px; }
+
+  .confirm-btn {
+    width: 100%; background: var(--green); color: #fff; border: none;
+    padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 600;
+    cursor: pointer; margin-top: 16px; font-family: inherit;
+    transition: transform 0.1s;
+  }
+  .confirm-btn:active { transform: scale(0.98); }
+
+  .kpi-card { background: var(--card); border-radius: 16px; padding: 16px; }
+  .kpi-card .label { color: var(--text-dim); font-size: 14px; }
+  .kpi-card .val { font-size: 30px; font-weight: 700; margin-top: 2px; }
+  .kpi-card .sub { font-size: 12px; margin-top: 2px; }
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .kpi-grid .kpi-card .val { font-size: 22px; }
+  .kpi-row { display: flex; justify-content: space-between; padding: 6px 0; }
+  .kpi-row .name { font-weight: 600; }
+  .kpi-row .val { color: var(--text-dim); }
+
+  .tipp {
+    background: linear-gradient(135deg, #e0f1ff 0%, #b3daff 100%);
+    border-radius: 20px; padding: 18px; margin-top: 20px;
+  }
+  .tipp p { margin-top: 10px; color: #0a3d6b; font-size: 14px; line-height: 1.4; }
+
+  /* Tab Bar */
+  .tabbar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    z-index: 100;
+  }
+  .tabbar-inner {
+    max-width: 430px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 20px;
+  }
+  .tab {
+    background: none; border: none; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 6px 12px;
+    font-size: 11px; color: var(--text-dim);
+    font-family: inherit;
+    font-weight: 500;
+    transition: color 0.15s;
+  }
+  .tab.active { color: var(--primary); }
+  .tab .icon { font-size: 22px; line-height: 1; }
+
+  @media (min-width: 600px) {
+    body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .app {
+      margin-top: 20px; margin-bottom: 20px;
+      border-radius: 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      overflow: hidden;
+      min-height: calc(100vh - 40px);
+    }
+    .tabbar {
+      position: absolute;
+      border-radius: 0 0 32px 32px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- HOME -->
+  <section class="view active" id="view-home">
+    <main>
+      <p class="dim" id="today">Heute</p>
+      <h1 style="margin-top: 4px;">Moin, Halil 👋</h1>
+
+      <button class="scan-btn" onclick="show('scan')">
+        <span class="emoji">📸</span> Beleg scannen
+      </button>
+
+      <div class="suggestion">
+        <span class="tag">💡 Vorschlag heute</span>
+        <h3>Lachs-Special</h3>
+        <p>Du hast noch 2 kg Lachs, geht morgen schlecht. Als Tagesgericht für 16,90 € – Marge 62 %.</p>
+      </div>
+
+      <h2>Bestand</h2>
+      <div class="stock-grid">
+        <div class="stock-tile">
+          <div class="label">Hähnchen</div>
+          <div class="value">4,2 kg</div>
+          <div class="ok">✓ reicht 3 Tage</div>
+        </div>
+        <div class="stock-tile">
+          <div class="label">Tomaten</div>
+          <div class="value">1,1 kg</div>
+          <div class="warn">⚠ schlecht in 2 Tagen</div>
+        </div>
+        <div class="stock-tile">
+          <div class="label">Mehl</div>
+          <div class="value">12 kg</div>
+          <div class="ok">✓ reicht 1 Woche</div>
+        </div>
+        <div class="stock-tile">
+          <div class="label">Öl</div>
+          <div class="value">0,8 l</div>
+          <div class="warn">⚠ nachbestellen</div>
+        </div>
+      </div>
+
+      <h2>Gerichte heute</h2>
+      <div class="card">
+        <div class="dish">
+          <div class="ampel green"></div>
+          <div style="flex:1">
+            <div class="dish-name">Döner-Teller</div>
+            <div class="dish-sub">Wareneinsatz 2,80 € · Preis 9,90 €</div>
+          </div>
+          <div class="dish-margin margin-green">72 %</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="dish">
+          <div class="ampel yellow"></div>
+          <div style="flex:1">
+            <div class="dish-name">Lahmacun</div>
+            <div class="dish-sub">Wareneinsatz 2,10 € · Preis 5,50 €</div>
+          </div>
+          <div class="dish-margin margin-yellow">62 %</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="dish">
+          <div class="ampel red"></div>
+          <div style="flex:1">
+            <div class="dish-name">Caesar Salad</div>
+            <div class="dish-sub">Wareneinsatz 4,20 € · Preis 7,90 €</div>
+          </div>
+          <div class="dish-margin margin-red">47 %</div>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- SCAN (idle) -->
+  <section class="view" id="view-scan">
+    <main>
+      <button class="back" onclick="show('home')">← Zurück</button>
+      <h1>Beleg scannen</h1>
+      <p class="dim" style="margin-top: 4px;">
+        Foto vom Lieferschein oder Kassenbon machen. Die KI erkennt Artikel und Preise automatisch.
+      </p>
+      <button class="photo-dropzone" onclick="runScan()">
+        <div class="emoji">📸</div>
+        <div class="label">Foto aufnehmen</div>
+        <div style="font-size: 12px;">(Demo – tippen zum Scannen simulieren)</div>
+      </button>
+      <p class="dim" style="text-align:center; margin-top: 16px; font-size: 12px;">
+        Alternativ: Beleg per WhatsApp an uns schicken.
+      </p>
+    </main>
+  </section>
+
+  <!-- SCANNING -->
+  <section class="view" id="view-scanning">
+    <main>
+      <div class="loading">
+        <div class="spinner"></div>
+        <div style="font-size: 18px; font-weight: 600;">KI liest Beleg...</div>
+        <div class="dim" style="margin-top: 4px;">Artikel, Mengen, Preise erkennen</div>
+      </div>
+    </main>
+  </section>
+
+  <!-- RESULT -->
+  <section class="view" id="view-result">
+    <main>
+      <div class="beleg-header">
+        <div class="checkmark">✓</div>
+        <h2 style="margin: 0;">Beleg erkannt</h2>
+        <p class="dim">Metro · 23.04.2026 · 14:12</p>
+      </div>
+      <div class="card">
+        <div class="beleg-item">
+          <div>
+            <div style="font-weight:600">Hähnchenbrust</div>
+            <div class="qty">5 kg · 9,90 €/kg</div>
+          </div>
+          <div class="price">49,50 €</div>
+        </div>
+        <div class="beleg-item">
+          <div>
+            <div style="font-weight:600">Paprika rot</div>
+            <div class="qty">3 kg · 3,20 €/kg</div>
+          </div>
+          <div class="price">9,60 €</div>
+        </div>
+        <div class="beleg-item">
+          <div>
+            <div style="font-weight:600">Olivenöl 5 L</div>
+            <div class="qty">1 Stk · 28,40 €</div>
+          </div>
+          <div class="price">28,40 €</div>
+        </div>
+        <div class="beleg-item">
+          <div>
+            <div style="font-weight:600">Zwiebeln</div>
+            <div class="qty">10 kg · 1,80 €/kg</div>
+          </div>
+          <div class="price">18,00 €</div>
+        </div>
+        <div class="total-row">
+          <span>Summe</span>
+          <span>105,50 €</span>
+        </div>
+      </div>
+      <div class="hint-card">
+        <div class="title">💡 KI-Hinweis</div>
+        <p>Hähnchen ist 12 % teurer als letzte Woche. Marge beim Döner-Teller sinkt auf 70 %.</p>
+      </div>
+      <button class="confirm-btn" onclick="confirmBeleg()">✓ Bestand aktualisieren</button>
+    </main>
+  </section>
+
+  <!-- BESTAND -->
+  <section class="view" id="view-bestand">
+    <main>
+      <h1>Bestand</h1>
+      <p class="dim" style="margin-top: 4px;">8 Artikel · zuletzt aktualisiert gerade eben</p>
+
+      <h2>⚠ Bald schlecht / leer</h2>
+      <div class="card">
+        <div class="bestand-item">
+          <div>
+            <div class="bestand-name">Tomaten</div>
+            <div class="bestand-sub">1,1 kg · schlecht in 2 Tagen</div>
+          </div>
+          <span class="badge badge-red">dringend</span>
+        </div>
+        <div class="bestand-item">
+          <div>
+            <div class="bestand-name">Öl</div>
+            <div class="bestand-sub">0,8 l · nachbestellen</div>
+          </div>
+          <span class="badge badge-red">leer</span>
+        </div>
+        <div class="bestand-item">
+          <div>
+            <div class="bestand-name">Lachs</div>
+            <div class="bestand-sub">2 kg · schlecht morgen</div>
+          </div>
+          <span class="badge badge-red">dringend</span>
+        </div>
+      </div>
+
+      <h2>🛒 Im Blick behalten</h2>
+      <div class="card">
+        <div class="bestand-item">
+          <div>
+            <div class="bestand-name">Salat</div>
+            <div class="bestand-sub">3 Köpfe · schlecht in 3 Tagen</div>
+          </div>
+          <span class="badge badge-yellow">bald</span>
+        </div>
+        <div class="bestand-item">
+          <div>
+            <div class="bestand-name">Joghurtsoße</div>
+            <div class="bestand-sub">1,5 kg · reicht 2 Tage</div>
+          </div>
+          <span class="badge badge-yellow">niedrig</span>
+        </div>
+      </div>
+
+      <h2>✓ Alles gut</h2>
+      <div class="card">
+        <div class="bestand-item">
+          <div>
+            <div class="bestand-name">Hähnchen</div>
+            <div class="bestand-sub">4,2 kg · reicht 3 Tage</div>
+          </div>
+          <span class="badge badge-green">ok</span>
+        </div>
+        <div class="bestand-item">
+          <div>
+            <div class="bestand-name">Mehl</div>
+            <div class="bestand-sub">12 kg · reicht 1 Woche</div>
+          </div>
+          <span class="badge badge-green">ok</span>
+        </div>
+        <div class="bestand-item">
+          <div>
+            <div class="bestand-name">Reis</div>
+            <div class="bestand-sub">8 kg · reicht 5 Tage</div>
+          </div>
+          <span class="badge badge-green">ok</span>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- GERICHTE -->
+  <section class="view" id="view-gerichte">
+    <main>
+      <h1>Gerichte</h1>
+      <p class="dim" style="margin-top: 4px;">6 Gerichte · ⌀ Marge 64 %</p>
+
+      <h2><span style="color: var(--red);">●</span> Preis prüfen</h2>
+      <div class="card">
+        <div class="dish">
+          <div class="ampel red"></div>
+          <div style="flex:1">
+            <div class="dish-name">Caesar Salad</div>
+            <div class="dish-sub">Wareneinsatz 4,20 € · Preis 7,90 €</div>
+          </div>
+          <div class="dish-margin margin-red">47 %</div>
+        </div>
+      </div>
+
+      <h2><span style="color: var(--yellow-text);">●</span> Knapp</h2>
+      <div class="card">
+        <div class="dish">
+          <div class="ampel yellow"></div>
+          <div style="flex:1">
+            <div class="dish-name">Lahmacun</div>
+            <div class="dish-sub">Wareneinsatz 2,10 € · Preis 5,50 €</div>
+          </div>
+          <div class="dish-margin margin-yellow">62 %</div>
+        </div>
+      </div>
+
+      <h2><span style="color: var(--green);">●</span> Marge top</h2>
+      <div class="card">
+        <div class="dish">
+          <div class="ampel green"></div>
+          <div style="flex:1">
+            <div class="dish-name">Döner-Teller</div>
+            <div class="dish-sub">Wareneinsatz 2,80 € · Preis 9,90 €</div>
+          </div>
+          <div class="dish-margin margin-green">72 %</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="dish">
+          <div class="ampel green"></div>
+          <div style="flex:1">
+            <div class="dish-name">Hähnchen-Reis</div>
+            <div class="dish-sub">Wareneinsatz 3,10 € · Preis 10,50 €</div>
+          </div>
+          <div class="dish-margin margin-green">70 %</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="dish">
+          <div class="ampel green"></div>
+          <div style="flex:1">
+            <div class="dish-name">Pide mit Käse</div>
+            <div class="dish-sub">Wareneinsatz 1,80 € · Preis 6,50 €</div>
+          </div>
+          <div class="dish-margin margin-green">72 %</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="dish">
+          <div class="ampel green"></div>
+          <div style="flex:1">
+            <div class="dish-name">Falafel-Teller</div>
+            <div class="dish-sub">Wareneinsatz 2,20 € · Preis 8,90 €</div>
+          </div>
+          <div class="dish-margin margin-green">75 %</div>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- WOCHE -->
+  <section class="view" id="view-woche">
+    <main>
+      <h1>Diese Woche</h1>
+      <p class="dim" style="margin-top: 4px;">Montag, 21. April – Sonntag, 27. April</p>
+
+      <div class="kpi-card" style="margin-top: 20px;">
+        <div class="label">Umsatz</div>
+        <div class="val">4.242 €</div>
+        <div class="sub" style="color: var(--green);">+8 % vs. letzte Woche</div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="label">Wareneinsatz</div>
+          <div class="val">29 %</div>
+          <div class="sub" style="color: var(--green);">Ziel: ≤ 30 %</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Verschwendung</div>
+          <div class="val">86 €</div>
+          <div class="sub" style="color: var(--red);">meist Salat</div>
+        </div>
+      </div>
+
+      <h2>Top-Gerichte</h2>
+      <div class="card">
+        <div class="kpi-row"><span class="name">Döner-Teller</span><span class="val">142 ×</span></div>
+        <div class="kpi-row"><span class="name">Hähnchen-Reis</span><span class="val">98 ×</span></div>
+        <div class="kpi-row"><span class="name">Lahmacun</span><span class="val">74 ×</span></div>
+        <div class="kpi-row"><span class="name">Pide mit Käse</span><span class="val">41 ×</span></div>
+      </div>
+
+      <div class="tipp">
+        <span class="tag">💡 KI-Tipp</span>
+        <p>Caesar Salad hat nur 47 % Marge und 40 % Retour. Preis von 7,90 € auf 9,50 € anheben oder Rezept anpassen.</p>
+      </div>
+    </main>
+  </section>
+
+  <!-- TAB BAR -->
+  <nav class="tabbar">
+    <div class="tabbar-inner">
+      <button class="tab active" data-tab="home" onclick="show('home')">
+        <span class="icon">🏠</span>Heute
+      </button>
+      <button class="tab" data-tab="bestand" onclick="show('bestand')">
+        <span class="icon">📦</span>Bestand
+      </button>
+      <button class="tab" data-tab="gerichte" onclick="show('gerichte')">
+        <span class="icon">🍽️</span>Gerichte
+      </button>
+      <button class="tab" data-tab="woche" onclick="show('woche')">
+        <span class="icon">📊</span>Woche
+      </button>
+    </div>
+  </nav>
+</div>
+
+<script>
+  // Heutiges Datum anzeigen
+  const d = new Date();
+  const days = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+  document.getElementById('today').textContent = `${days[d.getDay()]}, ${d.getDate()}. ${months[d.getMonth()]}`;
+
+  // Navigation
+  const tabFor = { home: 'home', bestand: 'bestand', gerichte: 'gerichte', woche: 'woche', scan: 'home', scanning: 'home', result: 'home' };
+  function show(view) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + view).classList.add('active');
+    window.scrollTo(0, 0);
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === tabFor[view]);
+    });
+  }
+
+  function runScan() {
+    show('scanning');
+    setTimeout(() => show('result'), 1500);
+  }
+
+  function confirmBeleg() {
+    show('bestand');
+  }
+</script>
+
+</body>
+</html>
